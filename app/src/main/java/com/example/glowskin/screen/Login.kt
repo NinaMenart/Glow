@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.glowskin.comps.HeadingText
 import androidx.compose.material3.Text as Text1
 
@@ -30,7 +31,9 @@ import androidx.compose.material3.Text as Text1
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun LoginForm(onLogin: (Boolean) -> Unit) {
+fun LoginForm(onLogin: (Boolean) -> Unit,
+              onRegister: (Boolean, NavHostController) -> Unit,
+              navController: NavHostController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -84,6 +87,7 @@ fun LoginForm(onLogin: (Boolean) -> Unit) {
         Button(
             onClick = {
                 onLogin(true)
+
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -95,7 +99,7 @@ fun LoginForm(onLogin: (Boolean) -> Unit) {
         // Register Button
         Button(
             onClick = {
-
+                onRegister(true, navController)
             },
             modifier = Modifier
                 .fillMaxWidth()

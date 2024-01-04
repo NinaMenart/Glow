@@ -2,15 +2,12 @@ package com.example.glowskin.screen
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -47,87 +44,53 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppContent() {
-    val navController = rememberNavController()
+    val parentnavController = rememberNavController()
     var isLoggedIn by remember { mutableStateOf(false) }
 
+
+
     // Set up the navigation
-    NavHost(navController = navController, startDestination = if (isLoggedIn) "main" else "login") {
+    NavHost(navController = parentnavController, startDestination = if (isLoggedIn) "main" else "login") {
         composable("main") {
-            MainScreen(navController)
+            MainScreen()
 
         }
         composable("login") {
-            LoginScreen(navController = navController) {
+            LoginScreen(navController = parentnavController) {
                 isLoggedIn = it
+                if (isLoggedIn) {
+                    parentnavController.navigate("main")
+                }
+
             }
         }
-        composable("list") {
-            ListScreen(navController)
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Navigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "login") {
-        composable("main") {
-            MainScreen(navController = navController)
-
-        }
-        composable("login") {
-            LoginScreen(navController = navController)
-        }
-        composable("list") {
-            ListScreen(navController = navController)
+        composable("register") {
+            RegisterScreen(navController = parentnavController)
 
         }
     }
 }
 
 
-@Composable
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun MainScreen(navController: NavHostController) {
-    Scaffold(
-        bottomBar = {
-            BottomNavBar(
-                items = listOf(
-                    BottomNavItem(
-                        route = "main",
-                        icon = Icons.Default.Home
-                    ),
-                    BottomNavItem(
-                        route = "list",
-                        icon = Icons.Default.Face
-                    ),
-                    BottomNavItem(
-                        route = "login",
-                        icon = Icons.Default.AccountCircle
-                    ),
-                ),
-                navController = navController,
-                onItemClick = {
-                    navController.navigate(it.route)
-                }
-            )
-        }
-    ) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = "main screen")
-        }
-    }
-}
 
 @Composable
 fun LoginScreen(navController: NavHostController, onLogin: (Boolean) -> Unit = {}) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        LoginForm { isLoggedIn ->
-            onLogin(isLoggedIn)
-            if (isLoggedIn) {
-                navController.navigate("main")
-            }
-        }
+        LoginForm(onLogin, ::registerOnClick, navController)
+    }
+}
+
+fun registerOnClick(isRegistered: Boolean, navController: NavHostController) {
+    navController.navigate("register")
+
+    Log.d("LOGIN", "register click happened$isRegistered")
+
+}
+
+@Composable
+fun RegisterScreen(navController: NavHostController) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = "register screen")
     }
 }
 
@@ -176,32 +139,6 @@ fun BottomNavBar(
 @Composable
 fun GreetingPreview() {
     GlowSkinTheme {
-        val navController = rememberNavController()
-        Scaffold(
-            bottomBar = {
-                BottomNavBar(
-                    items = listOf(
-                        BottomNavItem(
-                            route = "home",
-                            icon = Icons.Default.Home
-                        ),
-                        BottomNavItem(
-                            route = "list",
-                            icon = Icons.Default.Face
-                        ),
-                        BottomNavItem(
-                            route = "login",
-                            icon = Icons.Default.AccountCircle
-                        ),
-                    ),
-                    navController = navController,
-                    onItemClick = {
-                        navController.navigate(it.route)
-                    }
-                )
-            }
-        ) {
-            Navigation(navController = navController)
-        }
+
     }
 }
