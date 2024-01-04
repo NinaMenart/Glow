@@ -31,6 +31,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.example.glowskin.comps.BottomNavItem
 import com.example.glowskin.ui.theme.Coffee
 import com.example.glowskin.ui.theme.GlowSkinTheme
@@ -47,32 +48,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
                     val navController = rememberNavController()
-                    Scaffold (
-                        bottomBar = {
-                            BottomNavBar(items = listOf(
-                                BottomNavItem(
-                                    route = "home",
-                                    icon = Icons.Default.Home
-                                    ),
-                                BottomNavItem(
-                                    route = "list",
-                                    icon = Icons.Default.Face
-                                ),
-                                BottomNavItem(
-                                    route = "login",
-                                    icon = Icons.Default.AccountCircle
-                                ),
-                            ),
-                                navController = navController,
-                                onItemClick = {
-                                    navController.navigate(it.route)
-                                })
-                        }
-                    ) {
-                        Navigation(navController = navController)
-                    }
+                    Navigation(navController = navController)
                 }
             }
         }
@@ -82,21 +59,18 @@ class MainActivity : ComponentActivity() {
 
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Navigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "Home") {
-        composable("home") {
-            //home screen kar se kaze
-            HomeScreen()
+    NavHost(navController = navController, startDestination = "login") {
 
+        composable("content") {
+            //home screen kar se kaze
+            Content()
         }
         composable("login") {
             //home screen kar se kaze
-            LoginScreen()
-        }
-        composable("list") {
-            //home screen kar se kaze
-            ListScreen()
+            LoginScreen(navController)
         }
     }
 }
@@ -111,11 +85,11 @@ fun HomeScreen() {
 }
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController) {
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment =  Alignment.Center)
     {
-        LoginForm()
+        LoginForm(navController)
     }
 }
 

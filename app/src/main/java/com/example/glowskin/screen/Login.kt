@@ -44,10 +44,7 @@ fun LoginForm(
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
-
-        ,
-
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -95,7 +92,7 @@ fun LoginForm(
         // Login Button
         Button(
             onClick = {
-
+                navController.navigate("content")
             },
             modifier = Modifier
                 .fillMaxWidth()
