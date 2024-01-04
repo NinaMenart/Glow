@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GlowSkin</string>
+    <string name="back_button" />
+    <string name="login" />
+    <string name="list" />
+    <string name="Prijava" />
+</resources>
