@@ -85,16 +85,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "Home") {
-        composable("home") {
+        composable("home2123") {
             //home screen kar se kaze
             HomeScreen()
 
         }
-        composable("login") {
+        composable("login1231") {
             //home screen kar se kaze
             LoginScreen()
         }
-        composable("list") {
+        composable("list3123") {
             //home screen kar se kaze
             ListScreen()
         }
