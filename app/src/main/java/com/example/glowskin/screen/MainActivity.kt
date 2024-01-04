@@ -48,37 +48,43 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    val navController = rememberNavController()
-                    Scaffold (
-                        bottomBar = {
-                            BottomNavBar(items = listOf(
-                                BottomNavItem(
-                                    route = "home",
-                                    icon = Icons.Default.Home
-                                    ),
-                                BottomNavItem(
-                                    route = "list",
-                                    icon = Icons.Default.Face
-                                ),
-                                BottomNavItem(
-                                    route = "login",
-                                    icon = Icons.Default.AccountCircle
-                                ),
-                            ),
-                                navController = navController,
-                                onItemClick = {
-                                    navController.navigate(it.route)
-                                })
-                        }
-                    ) {
-                        Navigation(navController = navController)
-                    }
+                    LoginScreen()
+
                 }
             }
         }
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun NavScreen() {
+    val navController = rememberNavController()
+    Scaffold (
+        bottomBar = {
+            BottomNavBar(items = listOf(
+                BottomNavItem(
+                    route = "home",
+                    icon = Icons.Default.Home
+                ),
+                BottomNavItem(
+                    route = "list",
+                    icon = Icons.Default.Face
+                ),
+                BottomNavItem(
+                    route = "",
+                    icon = Icons.Default.AccountCircle
+                ),
+            ),
+                navController = navController,
+                onItemClick = {
+                    navController.navigate(it.route)
+                })
+        }
+    ) {
+        Navigation(navController = navController)
+    }
+}
 
 
 
@@ -92,7 +98,7 @@ fun Navigation(navController: NavHostController) {
         }
         composable("login") {
             //home screen kar se kaze
-            LoginScreen()
+           // LoginScreen()
         }
         composable("list") {
             //home screen kar se kaze
@@ -162,8 +168,6 @@ fun BottomNavBar(
         }
     }
 }
-
-
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

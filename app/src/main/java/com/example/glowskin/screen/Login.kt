@@ -38,6 +38,8 @@ fun LoginForm(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var showMessage by remember { mutableStateOf(false) }
+    var startLogin by remember { mutableStateOf(false) }
+
 
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -95,6 +97,7 @@ fun LoginForm(
         // Login Button
         Button(
             onClick = {
+                startLogin = true
 
             },
             modifier = Modifier
@@ -103,6 +106,13 @@ fun LoginForm(
         ) {
             Text1(text = "Prijava")
         }
+        if(startLogin) {
+            startLogin = false
+            NavScreen()
+
+        }
+
+
         // Register Button
         Button(
             onClick = {
