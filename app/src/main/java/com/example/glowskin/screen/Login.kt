@@ -19,42 +19,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.glowskin.comps.HeadingText
 import androidx.compose.material3.Text as Text1
 
 
+
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun LoginForm(
-    navController: NavHostController = rememberNavController()
-) {
+fun LoginForm(onLogin: (Boolean) -> Unit) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var showMessage by remember { mutableStateOf(false) }
-    var startLogin by remember { mutableStateOf(false) }
-
-
-    val context = LocalContext.current
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
-
-        ,
-
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HeadingText(value = "Prijava")
-
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -89,7 +75,7 @@ fun LoginForm(
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    showMessage = true
+                    onLogin(true)
                 }
             )
         )
@@ -97,8 +83,7 @@ fun LoginForm(
         // Login Button
         Button(
             onClick = {
-                startLogin = true
-
+                onLogin(true)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -106,12 +91,6 @@ fun LoginForm(
         ) {
             Text1(text = "Prijava")
         }
-        if(startLogin) {
-            startLogin = false
-            NavScreen()
-
-        }
-
 
         // Register Button
         Button(
@@ -124,8 +103,5 @@ fun LoginForm(
         ) {
             Text1(text = "Registracija")
         }
-
-
     }
-
 }

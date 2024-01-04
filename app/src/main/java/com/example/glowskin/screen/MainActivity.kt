@@ -11,15 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,105 +28,115 @@ import com.example.glowskin.comps.BottomNavItem
 import com.example.glowskin.ui.theme.Coffee
 import com.example.glowskin.ui.theme.GlowSkinTheme
 
-
 class MainActivity : ComponentActivity() {
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             GlowSkinTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-                    LoginScreen()
-
+                    AppContent()
                 }
             }
         }
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavScreen() {
+fun AppContent() {
     val navController = rememberNavController()
-    Scaffold (
-        bottomBar = {
-            BottomNavBar(items = listOf(
-                BottomNavItem(
-                    route = "home",
-                    icon = Icons.Default.Home
-                ),
-                BottomNavItem(
-                    route = "list",
-                    icon = Icons.Default.Face
-                ),
-                BottomNavItem(
-                    route = "",
-                    icon = Icons.Default.AccountCircle
-                ),
-            ),
-                navController = navController,
-                onItemClick = {
-                    navController.navigate(it.route)
-                })
-        }
-    ) {
-        Navigation(navController = navController)
-    }
-}
+    var isLoggedIn by remember { mutableStateOf(false) }
 
-
-
-@Composable
-fun Navigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "Home") {
-        composable("home") {
-            //home screen kar se kaze
-            HomeScreen()
+    // Set up the navigation
+    NavHost(navController = navController, startDestination = if (isLoggedIn) "main" else "login") {
+        composable("main") {
+            MainScreen(navController)
 
         }
         composable("login") {
-            //home screen kar se kaze
-           // LoginScreen()
+            LoginScreen(navController = navController) {
+                isLoggedIn = it
+            }
         }
         composable("list") {
-            //home screen kar se kaze
-            ListScreen()
+            ListScreen(navController)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Navigation(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = "login") {
+        composable("main") {
+            MainScreen(navController = navController)
+
+        }
+        composable("login") {
+            LoginScreen(navController = navController)
+        }
+        composable("list") {
+            ListScreen(navController = navController)
+
+        }
+    }
+}
+
+
+@Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+fun MainScreen(navController: NavHostController) {
+    Scaffold(
+        bottomBar = {
+            BottomNavBar(
+                items = listOf(
+                    BottomNavItem(
+                        route = "main",
+                        icon = Icons.Default.Home
+                    ),
+                    BottomNavItem(
+                        route = "list",
+                        icon = Icons.Default.Face
+                    ),
+                    BottomNavItem(
+                        route = "login",
+                        icon = Icons.Default.AccountCircle
+                    ),
+                ),
+                navController = navController,
+                onItemClick = {
+                    navController.navigate(it.route)
+                }
+            )
+        }
+    ) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(text = "main screen")
         }
     }
 }
 
 @Composable
-fun HomeScreen() {
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment =  Alignment.Center)
-    {
-        Text(text = "home screen")
+fun LoginScreen(navController: NavHostController, onLogin: (Boolean) -> Unit = {}) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        LoginForm { isLoggedIn ->
+            onLogin(isLoggedIn)
+            if (isLoggedIn) {
+                navController.navigate("main")
+            }
+        }
     }
 }
 
 @Composable
-fun LoginScreen() {
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment =  Alignment.Center)
-    {
-        LoginForm()
-    }
-}
-
-@Composable
-fun ListScreen() {
-    Box(modifier = Modifier.fillMaxSize(),
-        contentAlignment =  Alignment.Center)
-    {
+fun ListScreen(navController: NavHostController) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "list screen")
     }
 }
-
 
 @Composable
 fun BottomNavBar(
@@ -158,10 +161,8 @@ fun BottomNavBar(
                     unselectedIconColor = Color.White
                 ),
                 icon = {
-                    Column (horizontalAlignment = Alignment.CenterHorizontally){
-                        Icon(imageVector = item.icon,
-                            contentDescription = item.route
-                        )
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(imageVector = item.icon, contentDescription = item.route)
                     }
                 }
             )
@@ -169,33 +170,35 @@ fun BottomNavBar(
     }
 }
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     GlowSkinTheme {
         val navController = rememberNavController()
-        Scaffold (
+        Scaffold(
             bottomBar = {
-                BottomNavBar(items = listOf(
-                    BottomNavItem(
-                        route = "home",
-                        icon = Icons.Default.Home
+                BottomNavBar(
+                    items = listOf(
+                        BottomNavItem(
+                            route = "home",
+                            icon = Icons.Default.Home
+                        ),
+                        BottomNavItem(
+                            route = "list",
+                            icon = Icons.Default.Face
+                        ),
+                        BottomNavItem(
+                            route = "login",
+                            icon = Icons.Default.AccountCircle
+                        ),
                     ),
-                    BottomNavItem(
-                        route = "list",
-                        icon = Icons.Default.Face
-                    ),
-                    BottomNavItem(
-                        route = "login",
-                        icon = Icons.Default.AccountCircle
-                    ),
-                ),
                     navController = navController,
                     onItemClick = {
                         navController.navigate(it.route)
-                    })
+                    }
+                )
             }
         ) {
             Navigation(navController = navController)
