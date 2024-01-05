@@ -85,11 +85,13 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation ("com.airbnb.android:lottie:6.3.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    implementation("io.ktor:ktor-client-core:2.3.7")
+    implementation("io.ktor:ktor-client-core:1.6.4")
     implementation("io.ktor:ktor-client-cio:2.3.7")
-    implementation("io.ktor:ktor-client-json:2.3.7")
+    implementation("io.ktor:ktor-client-json:1.6.4")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
-    implementation("io.ktor:ktor-client-serialization:2.3.7")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("io.ktor:ktor-client-serialization:1.6.4")
+    implementation("io.ktor:ktor-client-android:1.6.4")
+    implementation("io.ktor:ktor-client-core:2.3.7")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
 
 }

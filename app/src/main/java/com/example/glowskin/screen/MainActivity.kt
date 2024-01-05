@@ -163,7 +163,7 @@ fun SettingsScreen(navController: NavHostController) {
 
 @Composable
 fun UserScreen(navController: NavHostController) {
-
+    ShowJoke()
 }
 
 @Composable
