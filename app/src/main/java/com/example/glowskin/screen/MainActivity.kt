@@ -7,7 +7,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,6 +26,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.glowskin.comps.BottomNavItem
+import com.example.glowskin.comps.HeadingText
+import com.example.glowskin.comps.ListItem
 import com.example.glowskin.ui.theme.Coffee
 import com.example.glowskin.ui.theme.GlowSkinTheme
 
@@ -47,9 +53,6 @@ fun AppContent() {
     val parentnavController = rememberNavController()
     var isLoggedIn by remember { mutableStateOf(false) }
 
-
-
-    // Set up the navigation
     NavHost(navController = parentnavController, startDestination = if (isLoggedIn) "main" else "login") {
         composable("main") {
             MainScreen()
@@ -61,16 +64,19 @@ fun AppContent() {
                 if (isLoggedIn) {
                     parentnavController.navigate("main")
                 }
-
             }
         }
         composable("register") {
-            RegisterScreen(navController = parentnavController)
+            RegisterScreen(true, navController = parentnavController)
+
+        }
+        composable("registerConfirm") {
+            LoginScreen(navController = parentnavController)
 
         }
     }
-}
 
+}
 
 
 @Composable
@@ -79,26 +85,54 @@ fun LoginScreen(navController: NavHostController, onLogin: (Boolean) -> Unit = {
         LoginForm(onLogin, ::registerOnClick, navController)
     }
 }
-
+@Composable
+fun RegisterScreen(registerConfirmOnClick: Boolean, navController: NavHostController) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        RegisterForm(::registerConfirmOnClick, navController)
+    }
+}
 fun registerOnClick(isRegistered: Boolean, navController: NavHostController) {
     navController.navigate("register")
 
     Log.d("LOGIN", "register click happened$isRegistered")
 
 }
+fun registerConfirmOnClick(isRegisteredConfirm: Boolean, navController: NavHostController) {
+    navController.navigate("registerConfirm")
+
+    Log.d("LOGIN", "registerconfirm click happened$isRegisteredConfirm")
+
+}
+
 
 @Composable
-fun RegisterScreen(navController: NavHostController) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "register screen")
+fun ListScreen(itemList: List<ListItem>) {
+    Column {
+        HeadingText(value = "Moja rutina")
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyColumn {
+            items(itemList) { item ->
+                ListItemCard(item = item)
+                Divider()
+            }
+        }
     }
 }
 
 @Composable
-fun ListScreen(navController: NavHostController) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "list screen")
-    }
+fun AddScreen(navController: NavHostController) {
+
+}
+
+@Composable
+fun SettingsScreen(navController: NavHostController) {
+
+}
+
+@Composable
+fun UserScreen(navController: NavHostController) {
+
 }
 
 @Composable

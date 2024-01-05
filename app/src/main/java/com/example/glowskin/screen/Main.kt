@@ -2,9 +2,11 @@ package com.example.glowskin.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -29,11 +31,19 @@ fun MainScreen() {
                     ),
                     BottomNavItem(
                         route = "list",
+                        icon = Icons.Default.List
+                    ),
+                    BottomNavItem(
+                        route = "add",
+                        icon = Icons.Default.Add
+                    ),
+                    BottomNavItem(
+                        route = "user",
                         icon = Icons.Default.Face
                     ),
                     BottomNavItem(
-                        route = "login",
-                        icon = Icons.Default.AccountCircle
+                        route = "settings",
+                        icon = Icons.Default.Settings
                     ),
                 ),
                 navController = childnavController,
@@ -46,6 +56,9 @@ fun MainScreen() {
         ChildNavigation(childnavController)
     }
 }
+
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChildNavigation(navController: NavHostController) {
@@ -53,12 +66,23 @@ fun ChildNavigation(navController: NavHostController) {
         composable("home") {
             HomeScreen()
         }
-        composable("login") {
-            LoginScreen(navController = navController)
-        }
         composable("list") {
             ListScreen(navController = navController)
 
         }
+        composable("add") {
+            AddScreen(navController = navController)
+        }
+
+        composable("user") {
+            UserScreen(navController = navController)
+
+        }
+        composable("settings") {
+            SettingsScreen(navController = navController)
+
+        }
     }
 }
+
+
