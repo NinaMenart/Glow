@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
@@ -17,6 +20,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -25,6 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.glowskin.R
 import com.example.glowskin.comps.BottomNavItem
 import com.example.glowskin.comps.HeadingText
 import com.example.glowskin.comps.ListItem
@@ -32,8 +37,11 @@ import com.example.glowskin.ui.theme.Coffee
 import com.example.glowskin.ui.theme.GlowSkinTheme
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             GlowSkinTheme {
                 Surface(
@@ -41,11 +49,16 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     AppContent()
+
                 }
             }
         }
     }
+
+
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,6 +121,12 @@ fun registerConfirmOnClick(isRegisteredConfirm: Boolean, navController: NavHostC
 @Composable
 fun ListScreen(itemList: List<ListItem>) {
     Column {
+        Image(
+            painter = painterResource(id = R.drawable.logo1),
+            contentDescription = null,
+            modifier = Modifier.size(90.dp)
+                .padding(5.dp),
+        )
         HeadingText(value = "Izdelki")
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -125,6 +144,14 @@ fun AddScreen(navController: NavHostController) {
     var newItemList by remember { mutableStateOf(emptyList<ListItem>()) }
 
     Column {
+        Image(
+            painter = painterResource(id = R.drawable.logo1),
+            contentDescription = null,
+            modifier = Modifier.size(90.dp)
+                .padding(5.dp),
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
         HeadingText(value = "Dodaj v rutino")
         Spacer(modifier = Modifier.height(16.dp))
 

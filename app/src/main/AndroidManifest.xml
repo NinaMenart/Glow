@@ -13,6 +13,14 @@
         android:theme="@style/Theme.GlowSkin"
         tools:targetApi="31">
         <activity
+            android:name=".ui.theme.MainActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.GlowSkin" />
+        <activity
+            android:name=".comps.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".screen.MainActivity"
             android:exported="true"
             android:label="@string/app_name"

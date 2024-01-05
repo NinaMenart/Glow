@@ -46,7 +46,25 @@ fun ListScreen(navController: NavHostController) {
         imageID = R.drawable.logo1
     )
 
-    val itemList = listOf(item1, item2, item3)
+    val item4 = ListItem(
+        title = "Ime 1",
+        shortDescription = "Short description for Item 1",
+        imageID = R.drawable.logo1
+    )
+
+    val item5 = ListItem(
+        title = "Ime 2",
+        shortDescription = "Short description for Item 2",
+        imageID = R.drawable.logo1
+    )
+
+    val item6 = ListItem(
+        title = "Ime 3",
+        shortDescription = "Short description for Item 3",
+        imageID = R.drawable.logo1
+    )
+
+    val itemList = listOf(item1, item2, item3, item4, item5, item6)
 
     ListScreen(itemList)
 }

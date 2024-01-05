@@ -72,6 +72,7 @@ fun ChildNavigation(navController: NavHostController) {
         }
         composable("add") {
             AddScreen(navController = navController)
+
         }
 
         composable("user") {
