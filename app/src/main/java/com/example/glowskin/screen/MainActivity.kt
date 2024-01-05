@@ -35,13 +35,11 @@ import com.example.glowskin.comps.HeadingText
 import com.example.glowskin.comps.ListItem
 import com.example.glowskin.ui.theme.Coffee
 import com.example.glowskin.ui.theme.GlowSkinTheme
+import io.ktor.client.*
 
 class MainActivity : ComponentActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             GlowSkinTheme {
                 Surface(
@@ -54,10 +52,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-
 }
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,7 +106,7 @@ fun registerOnClick(isRegistered: Boolean, navController: NavHostController) {
 
 }
 fun registerConfirmOnClick(isRegisteredConfirm: Boolean, navController: NavHostController) {
-    navController.navigate("registerConfirm")
+    navController.navigate("login")
 
     Log.d("LOGIN", "registerconfirm click happened$isRegisteredConfirm")
 
