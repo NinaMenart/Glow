@@ -108,7 +108,7 @@ fun registerConfirmOnClick(isRegisteredConfirm: Boolean, navController: NavHostC
 @Composable
 fun ListScreen(itemList: List<ListItem>) {
     Column {
-        HeadingText(value = "Moja rutina")
+        HeadingText(value = "Izdelki")
         Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn {
@@ -122,7 +122,16 @@ fun ListScreen(itemList: List<ListItem>) {
 
 @Composable
 fun AddScreen(navController: NavHostController) {
+    var newItemList by remember { mutableStateOf(emptyList<ListItem>()) }
 
+    Column {
+        HeadingText(value = "Dodaj v rutino")
+        Spacer(modifier = Modifier.height(16.dp))
+
+        AddedScreen(navController, onItemAdded = { newItem ->
+            newItemList = newItemList + newItem
+        })
+    }
 }
 
 @Composable

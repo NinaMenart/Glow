@@ -29,21 +29,21 @@ import com.example.glowskin.comps.ListItem
 @Composable
 fun ListScreen(navController: NavHostController) {
     val item1 = ListItem(
-        title = "Item 1",
+        title = "Ime 1",
         shortDescription = "Short description for Item 1",
-        imageID = painterResource(id = R.drawable.logo1)
+        imageID = R.drawable.logo1
     )
 
     val item2 = ListItem(
-        title = "Item 2",
+        title = "Ime 2",
         shortDescription = "Short description for Item 2",
-        imageID = painterResource(id = R.drawable.logo1)
+        imageID = R.drawable.logo1
     )
 
     val item3 = ListItem(
-        title = "Item 3",
+        title = "Ime 3",
         shortDescription = "Short description for Item 3",
-        imageID = painterResource(id = R.drawable.logo1)
+        imageID = R.drawable.logo1
     )
 
     val itemList = listOf(item1, item2, item3)
@@ -64,7 +64,7 @@ fun ListItemCard(item: ListItem) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = item.imageID,
+                painter = painterResource(id = item.imageID),
                 contentDescription = null,
                 modifier = Modifier
                     .size(80.dp)
