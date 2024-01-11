@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -43,6 +45,7 @@ import com.example.glowskin.ui.theme.GlowSkinTheme
 import io.ktor.client.*
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: RoutineViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -51,7 +54,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppContent()
+                    AppContent(viewModel = viewModel)
 
                 }
             }
@@ -62,13 +65,13 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppContent() {
+fun AppContent(viewModel: RoutineViewModel) {
     val parentnavController = rememberNavController()
     var isLoggedIn by remember { mutableStateOf(false) }
 
     NavHost(navController = parentnavController, startDestination = if (isLoggedIn) "main" else "login") {
         composable("main") {
-            MainScreen()
+            MainScreen(viewModel = viewModel)
 
         }
         composable("login") {
@@ -166,7 +169,7 @@ fun ListScreen(itemList: List<ListItem>) {
     }
 }
 @Composable
-fun AddScreen(navController: NavHostController) {
+fun AddScreen(navController: NavHostController, viewModel: RoutineViewModel) {
     Row {
         Box(
             modifier = Modifier
@@ -192,19 +195,12 @@ fun AddScreen(navController: NavHostController) {
         }
     }
 
-
-    var routine by remember { mutableStateOf(emptyList<Routine>()) }
-
     Column {
         Spacer(modifier = Modifier.height(86.dp))
 
-        RoutineListScreen(routine)
-        Log.d("ROUTINE", "$routine")
+        RoutineListScreen(viewModel = viewModel)
 
-        AddButtonWithDialog { newRutine ->
-            routine = routine + newRutine
-            Log.d("COUNTER", "$newRutine")
-        }
+        AddButtonWithDialog(viewModel = viewModel)
     }
 }
 

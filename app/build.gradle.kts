@@ -94,5 +94,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:2.3.7")
     implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
     implementation("com.google.code.gson:gson:2.8.5")
+    implementation ("androidx.compose.runtime:runtime:1.5.4")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
 }

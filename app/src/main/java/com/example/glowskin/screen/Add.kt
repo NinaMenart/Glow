@@ -33,12 +33,24 @@ import androidx.compose.ui.unit.dp
 import com.example.glowskin.comps.CounterText
 import com.example.glowskin.comps.EmptyRoutineText
 import com.example.glowskin.comps.Routine
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 
+class RoutineViewModel : ViewModel() {
+    private var _routineList = mutableStateOf(emptyList<Routine>())
+    val routineList: State<List<Routine>> = _routineList
 
+    fun addRoutine(routine: Routine) {
+        _routineList.value = _routineList.value + routine
 
+    }
+}
 
 @Composable
-fun RoutineListScreen(routineList: List<Routine>) {
+fun RoutineListScreen(viewModel: RoutineViewModel) {
+    val routineList by viewModel.routineList
+
     LazyColumn(state = rememberLazyListState()) {
         if (routineList.isEmpty()) {
             item {
@@ -62,8 +74,10 @@ fun RoutineListScreen(routineList: List<Routine>) {
 }
 
 
+
+
 @Composable
-fun AddButtonWithDialog(onItemAdded: (Routine) -> Unit) {
+fun AddButtonWithDialog(viewModel: RoutineViewModel) {
     var isAddDialogVisible by remember { mutableStateOf(false) }
     var title by remember { mutableStateOf("") }
     var shortDescription by remember { mutableStateOf("") }
@@ -134,8 +148,8 @@ fun AddButtonWithDialog(onItemAdded: (Routine) -> Unit) {
                 confirmButton = {
                     Button(
                         onClick = {
-                            val newTrack = Routine(title, shortDescription)
-                            onItemAdded(newTrack)
+                            val newRoutine = Routine(title, shortDescription)
+                            viewModel.addRoutine(newRoutine)
                             isAddDialogVisible = false
                             title = ""
                             shortDescription = ""
