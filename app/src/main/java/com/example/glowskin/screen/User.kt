@@ -1,20 +1,21 @@
 package com.example.glowskin.screen
 
+import android.content.Context
 import android.util.Log
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import android.view.ViewGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
+import com.example.glowskin.R
+import com.example.glowskin.comps.JokeText
 import com.example.glowskin.ui.theme.GlowSkinTheme
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -27,19 +28,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 
-@Composable
-fun JokeText(jokeText: String) {
-    Text(
-        text = jokeText,
-        modifier = Modifier
-            .padding(16.dp)
-            ,
-        color = Color.Black,
-        fontSize = 30.sp,
-        textAlign = TextAlign.Center,
-    )
-
-}
 
 
 @Composable
@@ -57,6 +45,22 @@ fun ShowJoke() {
     joke?.let {
         JokeText(it.joke)
     }
+
+    val context: Context = LocalContext.current
+    val lottieAnimationView = remember {
+        LottieAnimationView(context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            setAnimation(R.raw.smrt)
+            repeatCount = LottieDrawable.INFINITE
+            playAnimation()
+        }
+    }
+
+    AndroidView({ lottieAnimationView }, update = {
+    })
 }
 @Serializable
 data class Joke(val joke: String)

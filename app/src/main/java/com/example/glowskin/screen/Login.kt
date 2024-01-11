@@ -1,6 +1,7 @@
 package com.example.glowskin.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,8 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -21,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -28,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.glowskin.R
 import com.example.glowskin.comps.HeadingText
+import com.example.glowskin.comps.WelcomeText
 import androidx.compose.material3.Text as Text1
 
 
@@ -40,6 +46,7 @@ fun LoginForm(onLogin: (Boolean) -> Unit,
               navController: NavHostController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var isPopupVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -47,37 +54,28 @@ fun LoginForm(onLogin: (Boolean) -> Unit,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Logo
         Image(
-            painter = painterResource(id = R.drawable.logo1),
+            painter = painterResource(id = R.drawable.logo3),
             contentDescription = null,
             modifier = Modifier.size(150.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        HeadingText(value = "Prijava")
+        WelcomeText(value = "Prijava")
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Username TextField
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
             label = { Text1(text = "Uporabnik") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(14.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                }
-            )
+                .padding(14.dp)
+                .background(Color.White.copy(alpha = 0.3f)),
         )
 
-        // Password TextField
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -85,37 +83,54 @@ fun LoginForm(onLogin: (Boolean) -> Unit,
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(14.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    onLogin(true)
-                }
-            )
+                .padding(14.dp)
+                .background(Color.White.copy(alpha = 0.3f)),
         )
 
-        // Login Button
         Button(
             onClick = {
-                onLogin(true)
-
+                if (username == "NinaMenart" && password == "35220004") {
+                    onLogin(true)
+                } else {
+                    isPopupVisible = true
+                }
             },
             modifier = Modifier
-                .fillMaxWidth()
+                .wrapContentWidth()
+                .wrapContentHeight()
                 .padding(8.dp)
         ) {
             Text1(text = "Prijava")
         }
-
-        // Register Button
+        if (isPopupVisible) {
+            AlertDialog(
+                onDismissRequest = {
+                    isPopupVisible = false
+                },
+                title = {
+                    Text1("Prijava ni uspela")
+                },
+                text = {
+                    Text1("Preverite uporabniško ime in geslo in poskusite znova.")
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            isPopupVisible = false
+                        }
+                    ) {
+                        Text1("OK")
+                    }
+                }
+            )
+        }
         Button(
             onClick = {
                 onRegister(true, navController)
             },
             modifier = Modifier
-                .fillMaxWidth()
+                .wrapContentWidth()
+                .wrapContentHeight()
                 .padding(8.dp)
         ) {
             Text1(text = "Registracija")
